@@ -1,0 +1,51 @@
+﻿@using WordsOfWisdom.Client.Services
+@using WordsOfWisdom.Data.DTOs
+@using WordsOfWisdom.Data.Responses
+@inject IQuotesService QuotesService
+
+
+
+<h1>@currentQuote?.Text</h1>
+<p>- @currentQuote?.Author</p>
+<button @onclick="GetNextQuote">Get Another Quote</button>
+
+
+
+
+
+
+
+
+@code {
+    private List<QuoteDTO> quotesCache = new();
+    private QuoteDTO? currentQuote;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await FetchQuotesBatch();
+        await GetNextQuote();
+    }
+
+    private async Task FetchQuotesBatch()
+    {
+        var quotesResult = await QuotesService.GetQuotes();
+        if (quotesResult.Quotes != null)
+        {
+            quotesCache.AddRange(quotesResult.Quotes);
+        }
+    }
+
+    private async Task GetNextQuote()
+    {
+        if (quotesCache.Count == 0)
+        {
+            await FetchQuotesBatch();
+        }
+
+        if (quotesCache.Count > 0)
+        {
+            currentQuote = quotesCache[0];
+            quotesCache.RemoveAt(0);
+        }
+    }
+}

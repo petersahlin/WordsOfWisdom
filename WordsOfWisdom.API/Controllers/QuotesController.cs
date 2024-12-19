@@ -27,12 +27,12 @@ namespace WordsOfWisdom.API.Controllers
 
         // GET: api/Quotes
         [HttpGet]
-        public async Task<GetQuotesResponse> GetQuotes(GetQuotesRequest request)
+        public async Task<GetQuotesResponse> GetQuotes()
         {
             var response = new GetQuotesResponse();
             try
             {
-                var quotesList= await _quoteRepository.GetTenQuotesAsync();
+                var quotesList = await _quoteRepository.GetTenQuotesAsync();
 
                 if (quotesList == null)
                 {
@@ -54,82 +54,83 @@ namespace WordsOfWisdom.API.Controllers
                     quoteDTOList.Add(quoteDTO);
                 }
 
-
                 response.Quotes = quoteDTOList;
-                return response;
 
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                response.Message = ex.Message;
+                response.Result = false;
             }
+                return response;
+            
         }
 
-       
 
-    //    // PUT: api/Quotes/5
-    //    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    //    [HttpPut("{id}")]
-    //    public async Task<IActionResult> PutQuote(int id, Quote quote)
-    //    {
-    //        if (id != quote.Id)
-    //        {
-    //            return BadRequest();
-    //        }
 
-    //        _context.Entry(quote).State = EntityState.Modified;
+        //    // PUT: api/Quotes/5
+        //    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //    [HttpPut("{id}")]
+        //    public async Task<IActionResult> PutQuote(int id, Quote quote)
+        //    {
+        //        if (id != quote.Id)
+        //        {
+        //            return BadRequest();
+        //        }
 
-    //        try
-    //        {
-    //            await _context.SaveChangesAsync();
-    //        }
-    //        catch (DbUpdateConcurrencyException)
-    //        {
-    //            if (!QuoteExists(id))
-    //            {
-    //                return NotFound();
-    //            }
-    //            else
-    //            {
-    //                throw;
-    //            }
-    //        }
+        //        _context.Entry(quote).State = EntityState.Modified;
 
-    //        return NoContent();
-    //    }
+        //        try
+        //        {
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!QuoteExists(id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
 
-    //    // POST: api/Quotes
-    //    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    //    [HttpPost]
-    //    public async Task<ActionResult<Quote>> PostQuote(Quote quote)
-    //    {
-    //        _context.Quotes.Add(quote);
-    //        await _context.SaveChangesAsync();
+        //        return NoContent();
+        //    }
 
-    //        return CreatedAtAction("GetQuote", new { id = quote.Id }, quote);
-    //    }
+        //    // POST: api/Quotes
+        //    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //    [HttpPost]
+        //    public async Task<ActionResult<Quote>> PostQuote(Quote quote)
+        //    {
+        //        _context.Quotes.Add(quote);
+        //        await _context.SaveChangesAsync();
 
-    //    // DELETE: api/Quotes/5
-    //    [HttpDelete("{id}")]
-    //    public async Task<IActionResult> DeleteQuote(int id)
-    //    {
-    //        var quote = await _context.Quotes.FindAsync(id);
-    //        if (quote == null)
-    //        {
-    //            return NotFound();
-    //        }
+        //        return CreatedAtAction("GetQuote", new { id = quote.Id }, quote);
+        //    }
 
-    //        _context.Quotes.Remove(quote);
-    //        await _context.SaveChangesAsync();
+        //    // DELETE: api/Quotes/5
+        //    [HttpDelete("{id}")]
+        //    public async Task<IActionResult> DeleteQuote(int id)
+        //    {
+        //        var quote = await _context.Quotes.FindAsync(id);
+        //        if (quote == null)
+        //        {
+        //            return NotFound();
+        //        }
 
-    //        return NoContent();
-    //    }
+        //        _context.Quotes.Remove(quote);
+        //        await _context.SaveChangesAsync();
 
-    //    private bool QuoteExists(int id)
-    //    {
-    //        return _context.Quotes.Any(e => e.Id == id);
-    //    }
-    //}
+        //        return NoContent();
+        //    }
+
+        //    private bool QuoteExists(int id)
+        //    {
+        //        return _context.Quotes.Any(e => e.Id == id);
+        //    }
+        //}
+    }
 }
