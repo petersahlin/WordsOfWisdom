@@ -17,7 +17,7 @@ a, .btn-link {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 .content {
@@ -107,55 +107,130 @@ code {
     MY ADDITIONS BELOW
 =======================>*/
 
-/*
-    Quote & author text
-*/
+/* Page title */
+.page-title {
+    font-size: 5rem; /* Large title */
+    text-align: center;
+    color: #638C6D;
+  
+    margin-top: 10vh;
+    letter-spacing: 2px; 
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 
+    font-family: "Great Vibes", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+
+
+
+
+
+/* Quote Container */
 .quote-container {
     text-align: center;
-    margin-top: 20vh;
+    margin: 5vh auto;
+    max-width: 750px;
+    width: 90%;
+    position: relative;
+    padding: 60px 40px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
 }
 
     .quote-container h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        font-family: 'Georgia', serif;
         color: #333;
+        margin: 0;
+        line-height: 1.4;
     }
 
-    .quote-container p {
+/* Flexbox for Author */
+.quote-author {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 20px;
+    padding-right: 30px; /* Space from right */
+}
+
+    .quote-author p {
         font-style: italic;
-        margin-top: 10px;
-    }
-
-    .quote-container button {
-        margin-top: 20px;
-        padding: 10px 20px;
+        margin: 0;
         font-size: 1rem;
-        cursor: pointer;
+        color: #666;
     }
 
-    /*
-        New quote button
-    */
+/* Button 33 Styling */
 .button-33 {
     background-color: #c2fbd7;
     border-radius: 100px;
-    box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-    color: green;
+    box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset, rgba(44, 187, 99, .15) 0 1px 2px, rgba(44, 187, 99, .15) 0 2px 4px, rgba(44, 187, 99, .15) 0 4px 8px, rgba(44, 187, 99, .15) 0 8px 16px, rgba(44, 187, 99, .15) 0 16px 32px;
+    color: #4F7159;
     cursor: pointer;
     display: inline-block;
-    font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
-    padding: 7px 20px;
+    font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+    padding: 12px 30px; /* Larger padding for better spacing */
+    margin-top: 50px; /* Space between quote and button */
     text-align: center;
     text-decoration: none;
     transition: all 250ms;
     border: 0;
     font-size: 16px;
     user-select: none;
-    -webkit-user-select: none;
     touch-action: manipulation;
 }
 
     .button-33:hover {
-        box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+        box-shadow: rgba(44, 187, 99, .35) 0 -25px 18px -14px inset, rgba(44, 187, 99, .25) 0 1px 2px, rgba(44, 187, 99, .25) 0 2px 4px, rgba(44, 187, 99, .25) 0 4px 8px, rgba(44, 187, 99, .25) 0 8px 16px, rgba(44, 187, 99, .25) 0 16px 32px;
         transform: scale(1.05);
     }
+
+/* Responsive for Tablets */
+@media (max-width: 768px) {
+    .quote-container {
+        max-width: 90%;
+        margin-top: 10vh;
+        padding: 40px 30px;
+    }
+
+        .quote-container h1 {
+            font-size: 1.5rem;
+        }
+
+    .quote-author p {
+        font-size: 0.9rem;
+    }
+
+    .button-33 {
+        padding: 10px 25px;
+    }
+}
+
+/* Responsive for Mobile */
+@media (max-width: 480px) {
+    .quote-container {
+        max-width: 90%;
+        margin-top: 5vh;
+        padding: 30px 20px;
+        border-radius: 10px;
+    }
+
+        .quote-container h1 {
+            font-size: 1.3rem;
+        }
+
+    .quote-author p {
+        font-size: 0.9rem;
+    }
+
+    .button-33 {
+        font-size: 0.9rem;
+        padding: 8px 18px;
+    }
+}

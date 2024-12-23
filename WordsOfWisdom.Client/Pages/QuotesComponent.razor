@@ -5,9 +5,30 @@
 
 
 
-<div class="quote-container">
+@* <div class="quote-container">
     <h1>@currentQuote?.Text</h1>
     <p>- @currentQuote?.Author</p>
+    <button class="button-33" @onclick="GetNextQuote">Get Another Quote</button>
+</div> *@
+
+@* <div class="quote-container">
+    <h1>@currentQuote?.Text</h1>
+    <div class="quote-body">
+        <div class="quote-author">
+            <p>- @currentQuote?.Author</p>
+        </div>
+    </div>
+    <button class="button-33" @onclick="GetNextQuote">Get Another Quote</button>
+</div> *@
+<h1 class="page-title">Words of Wisdom</h1>
+
+<div class="quote-container">
+    <h1>@currentQuote?.Text</h1>
+    <div class="quote-body">
+        <div class="quote-author">
+            <p>- @currentQuote?.Author</p>
+        </div>
+    </div>
     <button class="button-33" @onclick="GetNextQuote">Get Another Quote</button>
 </div>
 
