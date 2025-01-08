@@ -23,7 +23,7 @@ namespace WordsOfWisdom.Client.Services
 
             try
             {
-                response = await _httpClient.GetFromJsonAsync<GetQuotesResponse>("/api/Quotes");
+                response = await _httpClient.GetFromJsonAsync<GetQuotesResponse>("quotes");
 
                 if (response == null || response.Result == false)
                 {
