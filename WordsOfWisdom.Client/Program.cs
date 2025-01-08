@@ -12,7 +12,13 @@ namespace WordsOfWisdom.Client
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7028") });
+            builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            var config = builder.Configuration;
+
+            builder.Services.AddScoped(sp => new HttpClient 
+            { 
+                BaseAddress = new Uri(config["ApiBaseUrl"] ?? "https://localhost:7090/api/") 
+            });
 
 
             builder.Services.AddScoped<IQuotesService, QuotesService>();

@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Threading.RateLimiting;
 using WordsOfWisdom.API.Data;
 using WordsOfWisdom.API.Repositories;
 using WordsOfWisdom.API.Services;
@@ -37,7 +38,7 @@ namespace WordsOfWisdom.API
                     {
                         Name = "Peter",
                         Email = "petersahlindev@gmail.com",
-                        Url = new Uri("https://petersahlin.dev/")
+                        Url = new Uri("https://localhost:7090")
                     }
                 });
             });
@@ -47,10 +48,25 @@ namespace WordsOfWisdom.API
             {
                 options.AddPolicy("AllowBlazorClient", policy =>
                 {
-                    policy.WithOrigins("https://localhost:7086")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
+                    policy.WithOrigins(
+                        "https://localhost:5001",       // Production Client
+                        "https://localhost:5001"         // Development Client
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
                 });
+            });
+
+
+            // Add rate limiter
+            builder.Services.AddRateLimiter(options =>
+            {
+                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+                    RateLimitPartition.GetFixedWindowLimiter("Global", partition => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 100,  // 100 requests per minute
+                        Window = TimeSpan.FromMinutes(1)
+                    }));
             });
 
             var app = builder.Build();
@@ -62,14 +78,18 @@ namespace WordsOfWisdom.API
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
             app.UseCors("AllowBlazorClient"); // Enable CORS
+            app.UseRateLimiter();
+
+
+            app.UseHttpsRedirection();
             app.UseAuthorization();
+
 
 
             /* =================================================================
                                 MANUAL IMPORT OF QUOTES
-               =================================================================*/ 
+               =================================================================*/
             //app.Lifetime.ApplicationStarted.Register(async () =>
             //{
             //    using var scope = app.Services.CreateScope();
@@ -103,6 +123,18 @@ namespace WordsOfWisdom.API
             //    }
             //});
             /*============================== END OF IMPORT CODE ============================== */
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Append("X-Frame-Options", "DENY");  // Prevent clickjacking
+                context.Response.Headers.Append("X-Content-Type-Options", "nosniff");  // Prevent MIME sniffing
+                context.Response.Headers.Append("Referrer-Policy", "no-referrer");  // No referrer data leaks
+                context.Response.Headers.Append("Permissions-Policy", "geolocation=(), microphone=()");  // Block geolocation/mic access
+                context.Response.Headers.Append("Strict-Transport-Security", "max-age=31536000; includeSubDomains");  // Enforce HTTPS for 1 year
+
+                await next();
+            });
+
 
             app.MapControllers();
 

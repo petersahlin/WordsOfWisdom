@@ -26,7 +26,7 @@ namespace WordsOfWisdom.API.Controllers
         }
 
         // GET: api/Quotes
-        [HttpGet]
+        [HttpGet("")]
         public async Task<GetQuotesResponse> GetQuotes()
         {
             var response = new GetQuotesResponse();
