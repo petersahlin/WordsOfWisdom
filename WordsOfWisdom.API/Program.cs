@@ -1,4 +1,5 @@
 
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Threading.RateLimiting;
@@ -15,8 +16,28 @@ namespace WordsOfWisdom.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container
+
+            var sqlConnectionStringBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("DefaultConnection")
+                )
+            {
+                UserID = builder.Configuration["DatabaseCredentials:UserId"],
+                Password = builder.Configuration["DatabaseCredentials:Password"]
+            };
+
+
+
             builder.Services.AddDbContext<WordsOfWisdomContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(sqlConnectionStringBuilder.ConnectionString, sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5, // Number of retry attempts
+                    maxRetryDelay: TimeSpan.FromSeconds(10), // Maximum delay between retries
+                    errorNumbersToAdd: null // Optional: Add specific SQL error codes to retry
+                    );
+                }));
+
+
+
 
             builder.Services.AddScoped<IQuoteRepository, QuoteRepository>();
             builder.Services.AddScoped<QuoteImporter>();
