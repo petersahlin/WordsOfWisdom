@@ -17,7 +17,7 @@ namespace WordsOfWisdom.Client
 
             builder.Services.AddScoped(sp => new HttpClient 
             { 
-                BaseAddress = new Uri(config["ApiBaseUrl"] ?? "https://localhost:443/api/") 
+                BaseAddress = new Uri(config["ApiBaseUrl"] ?? "https://words-of-wisdom-api-b9h5hcgvcsdxe5b9.northeurope-01.azurewebsites.net/api/quotes") 
             });
 
 

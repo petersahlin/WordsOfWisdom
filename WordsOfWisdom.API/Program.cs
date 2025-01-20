@@ -70,8 +70,8 @@ namespace WordsOfWisdom.API
                 options.AddPolicy("AllowBlazorClient", policy =>
                 {
                     policy.WithOrigins(
-                        "https://localhost:5001",       // Production Client
-                        "https://localhost:5001"         // Development Client
+                        "https://words-of-wisdom-client.azurewebsites.net"
+                    
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod();
